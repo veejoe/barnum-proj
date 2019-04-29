@@ -35,11 +35,25 @@ try:
 except NameError:
     DIRNAME = os.path.dirname(sys.argv[0])
 
+try:
+    locale = os.environ.get("LOCALE")
+    if locale == "en_US":
+        pkl_name = "source-data.pkl"
+    else:
+        pkl_name = "source-data" + locale + ".pkl"
+except:
+    pkl_name = "source-data.pkl"
+
 gender_options = ('Male', 'Female')
 company_type = ('LawFirm', 'Generic', 'Short')
 card_types = ('mastercard', 'visa', 'discover', 'amex')
 
-with open(os.path.join(DIRNAME, "source-data.pkl"), 'rb') as source_file:
+try:
+    open(os.path.join(DIRNAME, pkl_file), 'rb')
+except:
+    rebuild_pkl_file()
+
+with open(os.path.join(DIRNAME, pkl_file), 'rb') as source_file:
     all_zips = pickle.load(source_file)
     state_area_codes = pickle.load(source_file)
     last_names = pickle.load(source_file)
@@ -72,15 +86,24 @@ def create_job_title():
 
 
 def create_phone(zip_code=None):
+    if locale == 'en_AU':
+        first_part = random.randint(2111, 9999)
+        format_str = "(%s) %s-%s"
+    else:
+        first_part = random.randint(111, 999)
+        format_str = "(%s)%s-%s"
     if not zip_code:
         zip_code = random.choice(list(all_zips))
     area_code = random.choice(state_area_codes[all_zips[zip_code][1]])
-    output = "(%s)%s-%s" % (area_code, random.randint(111, 999), random.randint(1111, 9999))
+    output = format_str % (area_code, first_part, random.randint(1111, 9999))
     return(output)
 
 
 def create_street():
-    number = random.randint(1, 9999)
+    if locale = 'en_AU':
+        number = random.randint(1, 999)
+    else:
+        number = random.randint(1, 9999)
     name = string.capwords(random.choice(street_names))
     street_type = string.capwords(random.choice(street_types))
     return("%s %s %s" % (number, name, street_type))

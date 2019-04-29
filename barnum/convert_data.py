@@ -36,23 +36,34 @@ simple_files_to_process = ['street-names.txt', 'street-types.txt', 'latin-words.
                            'email-domains.txt', 'job-titles.txt', 'company-names.txt',
                            'company-types.txt', 'nounlist.txt']
 
+try:
+    locale = "-" + os.environ.get("LOCALE")
+    if locale == "en_US":
+        pkl_name = "source-data.pkl"
+    else:
+        pkl_name = "source-data" + locale + ".pkl"
+except:
+    locale = ""
+    pkl_name = "source-data.pkl"
 
 def _load_files():
     # Process Zip Codes
     all_zips = {}
-    reader = csv.reader(open(os.path.join(data_dir, "zip-codes.txt"), "r"))
+    zip_file = "zip-codes" + locale + ".txt"
+    reader = csv.reader(open(os.path.join(data_dir, zip_file), "r"))
     for row in reader:
         data = [string.capwords(row[3]), row[4]]
         all_zips[row[0]] = data
-    output = open('source-data.pkl', 'wb')
+    output = open(pkl_name, 'wb')
     pickle.dump(all_zips, output)
 
     #Process area codes
-    area_code_file = open(os.path.join(data_dir, "area-codes.txt"), "r")
+    area_file = "area-codes" + locale + ".txt"
+    area_code_file = open(os.path.join(data_dir, area_file), "r")
     state_area_codes = {}
     for line in area_code_file:
         clean_line = line.replace(' ', '').rstrip('\n')
-        state_area_codes[line.split(':')[0]] = clean_line[3:].split(',')
+        state_area_codes[line.split(':')[0]] = clean_line.rsplit(':')[1].split(',')
     pickle.dump(state_area_codes, output)
     area_code_file.close()
 
