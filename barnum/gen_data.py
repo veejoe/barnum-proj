@@ -100,7 +100,7 @@ def create_phone(zip_code=None):
 
 
 def create_street():
-    if locale = 'en_AU':
+    if locale == 'en_AU':
         number = random.randint(1, 999)
     else:
         number = random.randint(1, 9999)
