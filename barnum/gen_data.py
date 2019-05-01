@@ -48,7 +48,7 @@ gender_options = ('Male', 'Female')
 company_type = ('LawFirm', 'Generic', 'Short')
 card_types = ('mastercard', 'visa', 'discover', 'amex')
 
-with open(os.path.join(DIRNAME, pkl_file), 'rb') as source_file:
+with open(os.path.join(DIRNAME, pkl_name), 'rb') as source_file:
     all_zips = pickle.load(source_file)
     state_area_codes = pickle.load(source_file)
     last_names = pickle.load(source_file)
