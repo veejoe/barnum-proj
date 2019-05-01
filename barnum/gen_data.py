@@ -40,7 +40,7 @@ try:
     if locale == "en_US":
         pkl_name = "source-data.pkl"
     else:
-        pkl_name = "source-data" + locale + ".pkl"
+        pkl_name = "source-data-" + locale + ".pkl"
 except:
     pkl_name = "source-data.pkl"
 
