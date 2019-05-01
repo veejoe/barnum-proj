@@ -48,11 +48,6 @@ gender_options = ('Male', 'Female')
 company_type = ('LawFirm', 'Generic', 'Short')
 card_types = ('mastercard', 'visa', 'discover', 'amex')
 
-try:
-    open(os.path.join(DIRNAME, pkl_file), 'rb')
-except:
-    rebuild_pkl_file()
-
 with open(os.path.join(DIRNAME, pkl_file), 'rb') as source_file:
     all_zips = pickle.load(source_file)
     state_area_codes = pickle.load(source_file)
